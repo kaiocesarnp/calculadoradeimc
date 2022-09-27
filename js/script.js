@@ -40,10 +40,21 @@ const data =[
 //Seleção de elementos
 const imcTable = document.querySelector("#imc-table"); //seleciona a tabela que aparece após os calculos de imc
 
+    //inputs dos valores e botões de calcular e limpar
 const heightInput = document.querySelector("#height");
 const weightInput = document.querySelector("#weight");
 const calcBtn = document.querySelector("#calc-btn");
-const clearBtn = document.querySelector("#clear-btn"); //inputs dos valores e botões de calcular e limpar
+const clearBtn = document.querySelector("#clear-btn"); 
+
+    //containers do calculo e resultado
+const calcContainer = document.querySelector("#calc-container")
+const resultContainer = document.querySelector("#result-container")
+
+const imcNumber = document.querySelector("#imc-number span");
+const imcInfo = document.querySelector("#imc-info span");
+
+    //botão voltar, quando já está na segunda tela exibindo resultados, mencionado no evento 'backBtn.addEventListener'
+const backBtn = document.querySelector("#back-btn");
 
 //Funções
 function createTable(data){    //função que recebe os dados
@@ -73,7 +84,9 @@ function createTable(data){    //função que recebe os dados
                     //zerar valores, mencionada no evento 'clearBtn.addEventListener'
 function cleanInputs(){
     heightInput.value = ""
-    weightInput.value = ""   
+    weightInput.value = ""  
+    imcNumber.classList = "";
+    imcInfo.classList = "";
 }
 
             //função mencionada no evento "[heightInput, weightInput].forEach"
@@ -81,7 +94,18 @@ function cleanInputs(){
             //quer dizer: no texto todo. Tudo o que não for número e virgula é substituído por vazio = ""
 function validDigits(text){                     
         return text.replace(/[^0-9,]/g, "")      
-}            
+} 
+            //calcular o IMC, mencionada no evento 'calcBtn.addEventListener'
+function calcIMC(weight, height){
+    const imc = (weight/(height * height)).toFixed(1); //peso dividido por altura vezes altura. 'tofixed(1) limita o numero de caracteres pós vírgula. Obs: no resultado
+    return imc;
+}
+
+            //exibir tela dos resultados e voltar para anterior
+function showOrHideResults(){
+        calcContainer.classList.toggle("hide");
+        resultContainer.classList.toggle("hide");
+}
 
 //INICIALIZAÇÃO - do projeto, tabela de valores baseada nos dados
 createTable(data);
@@ -97,9 +121,66 @@ createTable(data);
     });
 }); 
 
+            //converter valores dos inputs, que são em texto para números
+calcBtn.addEventListener("click", (e) => { 
+    e.preventDefault();
+
+    const weight = +weightInput.value.replace(",", "."); //converter vírgulas em pontos, em relação às casas decimais. 
+    const height = +heightInput.value.replace(",", ".");   //o '+' representa a conversão do número para o tipo correto.
+
+    if (!weight || !height) return;  //bloqueia caso os valores não sejam preenchidos corretamente. Puxa a função 'calcIMC'
+    const imc = calcIMC(weight, height)
+
+            //variável que recebe o resultado do imc, da funçao 'calcIMC'
+    let info 
+    data.forEach((item) => {
+        if (imc >= item.min && imc <= item.max){   //Tradução: se o imc for maior ou igual ao item mínimo ou menor ou igual ao item máximo
+            info = item.info;
+        }
+    });
+
+    if (!info) return; //se a info não for correspondente, retorna
+
+            //preencher os spans
+    imcNumber.innerText = imc;
+    imcInfo.innerText = info;
+
+            //feedback visual de acordo com o peso do usuário: vermelho, verde, laranja
+    switch(info){
+        case "Magreza":
+            imcNumber.classList.add("low");
+            imcInfo.classList.add("low");
+            break;
+        case "Normal":
+            imcNumber.classList.add("good");
+            imcInfo.classList.add("good");
+            break;
+        case "Sobrepeso":
+            imcNumber.classList.add("low");
+            imcInfo.classList.add("low");
+            break;
+        case "Obesidade":
+            imcNumber.classList.add("medium");
+            imcInfo.classList.add("medium");
+            break;
+        case "Obesidade grave":
+            imcNumber.classList.add("high");
+            imcInfo.classList.add("high");
+            break;
+    }
+
+    showOrHideResults();
+});
+
             //evento que puxa a funçao 'cleanInputs' e zera os valores,
             //sem reiniciar a pág através do 'e.preventDefault();' 
 clearBtn.addEventListener("click", (e) => { 
      e.preventDefault();
     cleanInputs();  
-})
+});
+
+            //voltar para o inicio, puxando a const 'backBtn'. Não pega o evento '(e)' pois não está dentro do formulário
+backBtn.addEventListener("click", () => {
+    cleanInputs(); //limpa os inputs para resetar o formulário
+    showOrHideResults(); //retorna à tela inicial
+});
