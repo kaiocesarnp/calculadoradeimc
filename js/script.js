@@ -86,7 +86,7 @@ function cleanInputs(){
     heightInput.value = ""
     weightInput.value = ""  
     imcNumber.classList = "";
-    imcInfo.classList = "";
+    imcInfo.classList = ""; 
 }
 
             //função mencionada no evento "[heightInput, weightInput].forEach"
@@ -107,7 +107,7 @@ function showOrHideResults(){
         resultContainer.classList.toggle("hide");
 }
 
-//INICIALIZAÇÃO - do projeto, tabela de valores baseada nos dados
+//INICIALIZAÇÃO - do projeto, tabela de valores baseada nos dados.
 createTable(data);
 
 
