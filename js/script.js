@@ -107,7 +107,7 @@ function showOrHideResults(){
         resultContainer.classList.toggle("hide");
 }
 
-//INICIALIZAÇÃO - do projeto, tabela de valores baseada nos dados.
+//INICIALIZAÇÃO - do projeto, tabela de valores baseada nos dados
 createTable(data);
 
 
