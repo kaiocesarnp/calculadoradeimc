@@ -6,4 +6,5 @@ IMC é a sigla para Índice de Massa Corpórea, parâmetro adotado pela Organiza
 
 Estrutura e estilo do site em HTML e CSS; implementação em JavaScript. Ao informar a altura e peso, é exibido o índice de massa corpórea da pessoa e em qual nível está.
 Projeto simples mas muito útil.
+
 Código comentado e site responsivo.
