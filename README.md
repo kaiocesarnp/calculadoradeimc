@@ -8,3 +8,5 @@ Estrutura e estilo do site em HTML e CSS; implementação em JavaScript. Ao info
 Projeto simples mas muito útil.
 
 Código comentado e site responsivo.
+
+![Imagem da Aplicação](calculadora.jpg)
