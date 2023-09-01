@@ -1,4 +1,4 @@
-Calculadora de IMC
+# Calculadora de IMC
 
 Acesso: https://kaiocesarnp.github.io/calculadoradeimc/
 
